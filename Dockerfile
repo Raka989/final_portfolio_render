@@ -11,6 +11,9 @@ WORKDIR /var/www
 
 COPY . .
 
+# Install Composer dependencies
+RUN composer install --no-dev --optimize-autoloader
+
 RUN chown -R www-data:www-data /var/www && chmod -R 755 /var/www
 
 COPY nginx.conf /etc/nginx/sites-available/default
