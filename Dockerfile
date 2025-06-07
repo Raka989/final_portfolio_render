@@ -15,11 +15,8 @@ WORKDIR /var/www
 # Copy project files
 COPY . .
 
-# Install Composer dependencies (skip scripts for root)
+# Install Composer dependencies (skip post-autoload scripts)
 RUN composer install --no-dev --optimize-autoloader --no-scripts
-
-# Run Laravel package discovery manually
-RUN php artisan package:discover --ansi
 
 # Set permissions
 RUN chown -R www-data:www-data /var/www && chmod -R 755 /var/www
@@ -30,5 +27,5 @@ COPY nginx.conf /etc/nginx/sites-available/default
 # Expose HTTP port
 EXPOSE 80
 
-# Start both nginx and PHP-FPM
+# Start both Nginx and PHP-FPM
 CMD service nginx start && php-fpm
